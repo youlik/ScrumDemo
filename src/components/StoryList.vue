@@ -2,13 +2,13 @@
     <div id="root">
      <ul >
       <li v-for="(item,item_index) in Epic">
-          {{item.story}}
+          <span>{{item.story}}</span>
        <ul>
            <li v-for="(use,user_index) in item.user">
-            {{use.story}}
-           <ul>
+            <span>{{use.story}}</span>
+           <ul > 
                <li v-for="(task,task_index) in use.Task" >
-                   {{task}}
+                   <span>{{task}}</span>
                </li>
            </ul>
            </li>
@@ -30,8 +30,8 @@ export default {
                 "story":"作为B111,我希望看到B111111111111111111111111,以便于B111111111111111111111111111",
                 "Task": [
                     "作为C111,我希望看到A111111111111111111111111,以便于A111111111111111111111111111",
-                    "作为C222,我希望看到A222222222222222222222222,以便于A222222222222222222222222222",
-                    "作为C333,我希望看到A333333333333333333333333,以便于A333333333333333333333333333"
+                    "作为C111,我希望看到A222222222222222222222222,以便于A222222222222222222222222222",
+                    "作为C111,我希望看到A333333333333333333333333,以便于A333333333333333333333333333"
                 ]
             },{
                 "story":"作为B222,我希望看到B222222222222222222222222,以便于B222222222222222222222222222"
@@ -61,7 +61,11 @@ export default {
 ul{
     list-style-type:none;
 }
-ul li {
-    margin-left: 15px;
+ul li{
+    text-align: left;
+    display: inline-block;
+    height: 40px;
+    line-height: 30px
 }
+
 </style>

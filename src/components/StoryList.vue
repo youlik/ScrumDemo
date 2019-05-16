@@ -28,6 +28,7 @@ export default {
   data() {
     return {
       Epic: [
+        
         {
           story:
             "作为A111,我希望看到A111111111111111111111111,以便于A111111111111111111111111111",
@@ -70,6 +71,9 @@ export default {
     };
   }
 };
+
+
+
 </script>
 
 <style scoped>

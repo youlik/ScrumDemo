@@ -3,32 +3,40 @@
     <ul>
       <li>
         <span>需求地图</span>
-        <ul>
-          <li v-for="(epic, epic_i) in Epic" :key="epic_i">
-            <span>{{ epic.story }}</span>
+        <sub-list :list="data"></sub-list>
+        <!-- <ul>
+          <li v-for="(epic, epic_i) in data" :key="epic_i">
+            <span>{{ epic.title }}</span>
             <ul>
-              <li v-for="(user, user_i) in epic.user" :key="user_i">
-                <span>{{ user.story }}</span>
+              <li v-for="(user, user_i) in epic.nodes" :key="user_i">
+                <span>{{ user.title }}</span>
                 <ul>
-                  <li v-for="(task, task_i) in user.Task" :key="task_i">
-                    <span>{{ task }}</span>
+                  <li v-for="(task, task_i) in user.nodes" :key="task_i">
+                    <span>{{ task.title }}</span>
+                    <ul>
+                      <li v-for="(tak, tak_i) in task.nodes" :key="tak_i">
+                        <span>{{ tak.title }}</span>
+                      </li>
+                    </ul>
                   </li>
                 </ul>
               </li>
             </ul>
           </li>
-        </ul>
+        </ul> -->
       </li>
     </ul>
   </div>
 </template>
 
 <script>
+import { getIssue } from "@/api/getIssue";
+import { fixData } from '@/assets/js/fixData'
+import subList from './subList'
 export default {
   data() {
     return {
       Epic: [
-        
         {
           story:
             "作为A111,我希望看到A111111111111111111111111,以便于A111111111111111111111111111",
@@ -67,13 +75,28 @@ export default {
             }
           ]
         }
-      ]
+      ],
+      data: null
     };
+  },
+  components: {
+    subList
+  },
+  methods: {
+    init() {
+      var req = {
+        query:
+          'query{organization(login:"wzvtcsoft-specialstudent"){repository(name:"ScrumDemo"){id name issues(first:10){ totalCount nodes{ title  number  body  timelineItems(first:10){   nodes{  ...on CrossReferencedEvent{    source{  ...on Issue{    number  }  }target{  ...on Issue{    number  } }}} }}}}}}'
+      };
+      getIssue(req).then(res => {
+        this.data = fixData(res.data.data.organization.repository.issues.nodes)
+      });
+    }
+  },
+  created() {
+    this.init();
   }
 };
-
-
-
 </script>
 
 <style scoped>
@@ -155,5 +178,4 @@ span {
 #tree span:hover + ul li:after {
   border-color: blue;
 }
-
 </style>

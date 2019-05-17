@@ -2,7 +2,7 @@
   <div id="tree">
     <ul>
       <li>
-        <span>需求地图</span>
+        <span>{{ title }} 需求地图</span>
         <sub-list :list="data"></sub-list>
         <!-- <ul>
           <li v-for="(epic, epic_i) in data" :key="epic_i">
@@ -36,46 +36,7 @@ import subList from './subList'
 export default {
   data() {
     return {
-      Epic: [
-        {
-          story:
-            "作为A111,我希望看到A111111111111111111111111,以便于A111111111111111111111111111",
-          user: [
-            {
-              story:
-                "作为B111,我希望看到B111111111111111111111111,以便于B111111111111111111111111111",
-              Task: [
-                "作为C111,我希望看到A111111111111111111111111,以便于A111111111111111111111111111",
-                "作为C222,我希望看到A222222222222222222222222,以便于A222222222222222222222222222",
-                "作为C333,我希望看到A333333333333333333333333,以便于A333333333333333333333333333"
-              ]
-            },
-            {
-              story:
-                "作为B222,我希望看到B222222222222222222222222,以便于B222222222222222222222222222"
-            }
-          ]
-        },
-        {
-          story:
-            "作为B111,我希望看到B111111111111111111111111,以便于A111111111111111111111111111",
-          user: [
-            {
-              story:
-                "作为B111,我希望看到G111111111111111111111111,以便于B111111111111111111111111111",
-              Task: [
-                "作为C111,我希望看到A111111111111111111111111,以便于A111111111111111111111111111",
-                "作为C222,我希望看到A222222222222222222222222,以便于A222222222222222222222222222",
-                "作为C333,我希望看到A333333333333333333333333,以便于A333333333333333333333333333"
-              ]
-            },
-            {
-              story:
-                "作为B222,我希望看到B222222222222222222222222,以便于B222222222222222222222222222"
-            }
-          ]
-        }
-      ],
+      title: '',
       data: null
     };
   },
@@ -84,11 +45,14 @@ export default {
   },
   methods: {
     init() {
+      // study-checklist
+      // ScrumDemo
       var req = {
         query:
-          'query{organization(login:"wzvtcsoft-specialstudent"){repository(name:"ScrumDemo"){id name issues(first:10){ totalCount nodes{ title  number  body  timelineItems(first:10){   nodes{  ...on CrossReferencedEvent{    source{  ...on Issue{    number  }  }target{  ...on Issue{    number  } }}} }}}}}}'
+          'query{organization(login:"wzvtcsoft-specialstudent"){repository(name:"ScrumDemo"){id name issues(first:100){ totalCount nodes{ title  number  body  timelineItems(first:10){   nodes{  ...on CrossReferencedEvent{    source{  ...on Issue{    number  }  }target{  ...on Issue{    number  } }}} }}}}}}'
       };
       getIssue(req).then(res => {
+        this.title = res.data.data.organization.repository.name;
         this.data = fixData(res.data.data.organization.repository.issues.nodes)
       });
     }

@@ -13,7 +13,7 @@ const service = axios.create({
 service.interceptors.request.use( config => {
     config.headers = { // 设置请求头
         'Content-Type': 'application/json',
-        'Authorization': ' bearer 80ce2076ea6102d947f2226816330a4e625bd24d '
+        'Authorization': ' bearer b018bf37d51ce0704127c1e88e45b562777bee50 '
     }
     return config;
 })
